@@ -1,0 +1,53 @@
+<div class="relative rounded-lg overflow-hidden shadow-xl bg-gray-200 h-full w-full">
+  <!-- Search and Reset Controls -->
+  <div class="absolute top-3 left-3 right-3 z-10 flex flex-col sm:flex-row gap-2">
+    <form (submit)="$event.preventDefault(); searchLocation()" class="flex-grow flex shadow-md rounded-lg">
+      <input 
+        type="text" 
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)"
+        name="searchQuery"
+        placeholder="Tìm kiếm khu vực (VD: Phường Quang Trung...)"
+        class="flex-grow p-3 border-0 rounded-l-lg focus:ring-2 focus:ring-yellow-600 focus:outline-none w-full min-w-0"
+      >
+      <button type="submit" class="bg-yellow-500 text-gray-900 px-4 rounded-r-lg hover:bg-yellow-400 transition-colors flex items-center justify-center">
+        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+        </svg>
+      </button>
+    </form>
+    <button 
+        (click)="resetView()" 
+        class="bg-white text-gray-700 px-4 py-2 rounded-lg shadow-md hover:bg-gray-100 flex items-center justify-center gap-2 transition-colors flex-shrink-0">
+        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0 0 11.667 0m0 0-3.182-3.182m0 0a8.25 8.25 0 0 0-11.667 0" />
+        </svg>
+        <span class="hidden sm:inline">Reset View</span>
+    </button>
+  </div>
+  
+  <!-- "Search this area" Button -->
+  @if(mapMoved()) {
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-10">
+      <button (click)="searchThisArea()" class="bg-gray-800 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-gray-700 transition-all duration-200 animate-fade-in-up flex items-center gap-2">
+        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+        </svg>
+        <span>Tìm kiếm tại khu vực này</span>
+      </button>
+    </div>
+  }
+
+  <div #mapContainer class="w-full h-full"></div>
+  @if (mapInitialized() === false) {
+    <div class="absolute inset-0 flex items-center justify-center bg-gray-200">
+        <div class="text-center text-gray-500">
+            <svg class="animate-spin h-8 w-8 text-gray-400 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Đang tải bản đồ...
+        </div>
+    </div>
+  }
+</div>

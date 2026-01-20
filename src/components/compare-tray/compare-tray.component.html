@@ -1,0 +1,35 @@
+<div class="fixed bottom-0 left-0 right-0 z-30 p-4 animate-slide-up-fade">
+  <div class="container mx-auto">
+    <div class="bg-white rounded-lg shadow-2xl flex items-center justify-between p-4 border border-gray-200">
+      
+      <!-- Selected Properties -->
+      <div class="flex items-center space-x-3">
+        <span class="text-lg font-semibold text-gray-800 hidden sm:block">So sánh:</span>
+        @for(property of comparedProperties(); track property.id) {
+          <div class="relative group">
+            <img [ngSrc]="property.imageUrls[0]" [alt]="property.title" width="60" height="60" class="w-16 h-16 rounded-md object-cover border-2 border-green-500">
+             <button (click)="removeFromCompare(property.id)" class="absolute -top-2 -right-2 p-1 bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100" aria-label="Bỏ chọn">
+                <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                </svg>
+              </button>
+          </div>
+        }
+        @for (item of placeholders.slice(comparedProperties().length); track $index) {
+          <div class="w-16 h-16 rounded-md bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center">
+            <svg class="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+          </div>
+        }
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center space-x-3">
+        <button (click)="clear()" class="bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors text-sm">Xóa tất cả</button>
+        <button (click)="compareNow.emit()" [disabled]="comparedProperties().length < 2" class="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors text-sm disabled:bg-gray-400 disabled:cursor-not-allowed">
+          So sánh ngay ({{ comparedProperties().length }}/{{ MAX_COMPARE_ITEMS }})
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

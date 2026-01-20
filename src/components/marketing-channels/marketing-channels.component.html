@@ -1,0 +1,87 @@
+<app-header></app-header>
+
+<div class="bg-white">
+  <main class="py-16 sm:py-24">
+    <div class="container mx-auto px-4">
+      <!-- Header -->
+      <div class="text-center mb-16">
+        <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 tracking-tight">Hệ Sinh Thái</h1>
+        <p class="mt-4 text-2xl font-semibold text-yellow-600">Kênh Duy Nhất Của Chúng Ta: Chuyển Dịch Lợi Ích</p>
+      </div>
+
+      <!-- Main Content -->
+      <div class="max-w-4xl mx-auto space-y-16">
+
+        <!-- Triết Lý Nền Tảng -->
+        <div class="p-8 border-l-4 border-yellow-500 bg-yellow-50 rounded-r-lg">
+          <h2 class="text-3xl font-bold text-gray-800 mb-4">Triết Lý Nền Tảng</h2>
+          <div class="text-lg text-gray-700 leading-relaxed space-y-4">
+            <p class="font-semibold italic text-xl">
+              "Chúng ta chỉ có một kênh duy nhất là Chuyển Dịch Lợi Ích."
+            </p>
+            <p>
+              Đây là triết lý kim chỉ nam cho mọi hoạt động của chúng ta. Facebook, Zalo, YouTube... không phải là "kênh marketing". Chúng chỉ là những môi trường, những nền tảng nơi chúng ta thực hành nghệ thuật duy nhất của mình: điều phối một cuộc chuyển dịch giá trị công bằng và minh bạch.
+            </p>
+             <p>
+              Chúng ta không "đăng tin", chúng ta <strong>chia sẻ phân tích</strong>. Chúng ta không "tìm khách", chúng ta <strong>xây dựng niềm tin</strong>. Mỗi tương tác là một cơ hội để chuyển dịch một giá trị, dù đó là một góc nhìn thị trường, một con số dữ liệu, hay một lời tư vấn chân thành.
+            </p>
+          </div>
+        </div>
+        
+        <!-- Community Platforms -->
+        <div>
+          <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">1. Nền Tảng Cộng Đồng: Nơi Giá Trị Được Lan Tỏa</h2>
+          <div class="space-y-8">
+            @for(channel of socialChannels; track channel.name) {
+              <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 flex flex-col sm:flex-row gap-6">
+                <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center">
+                  <img [src]="channel.logoUrl" [alt]="channel.name" class="max-w-full max-h-full object-contain">
+                </div>
+                <div class="flex-grow">
+                  <h3 class="text-xl font-bold text-gray-800">{{ channel.name }}</h3>
+                  <p class="mt-2 text-gray-600">{{ channel.description }}</p>
+                  <div class="mt-4 p-3 bg-gray-50 rounded-md border-l-4 border-gray-300">
+                    <p class="text-sm"><strong class="font-semibold text-gray-700">Mẹo chuyên nghiệp:</strong> {{ channel.proTip }}</p>
+                  </div>
+                   <div class="mt-4">
+                    <a [href]="channel.link" target="_blank" rel="noopener noreferrer" class="font-semibold text-yellow-600 hover:text-yellow-800 transition-colors">
+                      Bắt đầu ngay &rarr;
+                    </a>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Expertise Platforms -->
+        <div>
+          <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">2. Nền Tảng Chuyên Môn: Nơi Giá Trị Được Kiến Tạo</h2>
+           <div class="space-y-8">
+            @for(channel of videoChannels; track channel.name) {
+              <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 flex flex-col sm:flex-row gap-6">
+                <div class="flex-shrink-0 w-24 h-24 flex items-center justify-center">
+                  <img [src]="channel.logoUrl" [alt]="channel.name" class="max-w-full max-h-full object-contain">
+                </div>
+                <div class="flex-grow">
+                  <h3 class="text-xl font-bold text-gray-800">{{ channel.name }}</h3>
+                  <p class="mt-2 text-gray-600">{{ channel.description }}</p>
+                  <div class="mt-4 p-3 bg-gray-50 rounded-md border-l-4 border-gray-300">
+                    <p class="text-sm"><strong class="font-semibold text-gray-700">Mẹo chuyên nghiệp:</strong> {{ channel.proTip }}</p>
+                  </div>
+                   <div class="mt-4">
+                    <a [href]="channel.link" target="_blank" rel="noopener noreferrer" class="font-semibold text-yellow-600 hover:text-yellow-800 transition-colors">
+                      Bắt đầu ngay &rarr;
+                    </a>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<app-footer></app-footer>

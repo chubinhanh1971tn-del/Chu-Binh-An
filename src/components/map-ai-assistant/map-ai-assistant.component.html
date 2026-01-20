@@ -1,0 +1,58 @@
+<div class="fixed bottom-24 right-6 z-40">
+  @if (!isOpen()) {
+    <button (click)="toggleChat()" class="bg-yellow-500 text-gray-900 rounded-full p-4 shadow-lg hover:bg-yellow-400 transition-transform hover:scale-110" aria-label="Mở Trợ lý AI">
+      <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 2ZM10 15a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 0110 15ZM10 7a3 3 0 100 6 3 3 0 000-6ZM5.432 4.043a.75.75 0 011.06-1.06l1.06 1.06a.75.75 0 01-1.06 1.06l-1.06-1.06ZM13.483 12.443a.75.75 0 011.06-1.06l1.06 1.06a.75.75 0 11-1.06 1.06l-1.06-1.06ZM4.043 14.568a.75.75 0 01-1.06-1.06l1.06-1.06a.75.75 0 011.06 1.06l-1.06 1.06ZM15.957 5.432a.75.75 0 01-1.06-1.06l1.06-1.06a.75.75 0 011.06 1.06l-1.06 1.06ZM2.75 10a.75.75 0 01.75-.75h1.5a.75.75 0 010 1.5h-1.5A.75.75 0 012.75 10ZM15 10a.75.75 0 01.75-.75h1.5a.75.75 0 010 1.5h-1.5A.75.75 0 0115 10Z" /></svg>
+    </button>
+  } @else {
+    <div class="w-80 h-[28rem] bg-white rounded-xl shadow-2xl flex flex-col animate-fade-in-up border border-gray-200">
+      <header class="p-4 bg-gray-800 text-white flex justify-between items-center rounded-t-xl">
+        <h3 class="font-bold text-lg">Mèo AI Dẫn Lối</h3>
+        <button (click)="toggleChat()" class="text-gray-300 hover:text-white" aria-label="Đóng Trợ lý AI">
+          <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+        </button>
+      </header>
+
+      <div #chatContainer class="flex-1 p-4 space-y-4 overflow-y-auto bg-gray-50">
+        @for(message of messages(); track $index) {
+          @if(message.sender === 'ai') {
+            <div class="flex items-end gap-2">
+              <div class="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center text-gray-800 font-bold flex-shrink-0">M</div>
+              <div class="bg-gray-200 p-3 rounded-lg max-w-[80%]">
+                @if(message.isThinking) {
+                  <div class="flex items-center space-x-1">
+                    <span class="w-2 h-2 bg-gray-500 rounded-full animate-bounce-short"></span>
+                    <span class="w-2 h-2 bg-gray-500 rounded-full animate-bounce-short [animation-delay:0.1s]"></span>
+                    <span class="w-2 h-2 bg-gray-500 rounded-full animate-bounce-short [animation-delay:0.2s]"></span>
+                  </div>
+                } @else {
+                  <p class="text-sm text-gray-800">{{ message.text }}</p>
+                }
+              </div>
+            </div>
+          } @else {
+            <div class="flex justify-end">
+              <div class="bg-blue-600 text-white p-3 rounded-lg max-w-[80%]">
+                <p class="text-sm">{{ message.text }}</p>
+              </div>
+            </div>
+          }
+        }
+      </div>
+
+      <footer class="p-2 border-t bg-white">
+        <form (submit)="$event.preventDefault(); sendMessage()" class="flex items-center gap-2">
+          <input 
+            type="text" 
+            [(ngModel)]="userInput"
+            name="userInput"
+            placeholder="VD: tìm nhà 2 tỷ ở Gia Sàng..."
+            class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+          >
+          <button type="submit" [disabled]="!userInput().trim()" class="bg-gray-800 text-white p-2 rounded-lg hover:bg-gray-700 transition-colors disabled:bg-gray-400">
+             <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>
+          </button>
+        </form>
+      </footer>
+    </div>
+  }
+</div>

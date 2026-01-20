@@ -1,0 +1,46 @@
+<app-header></app-header>
+
+<div class="bg-white">
+  <main class="py-16 sm:py-24">
+    <div class="container mx-auto px-4">
+      <!-- Header -->
+      <div class="text-center mb-16">
+        <h1 class="text-4xl sm:text-5xl font-bold text-green-800 tracking-tight">Đội Ngũ Cộng Tác Viên</h1>
+        <p class="mt-4 text-xl text-gray-600">Những đối tác đồng hành trong "Liên Minh Minh Bạch" của chúng tôi.</p>
+      </div>
+
+      <!-- Collaborators Grid -->
+      @if (collaborators().length > 0) {
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          @for (user of collaborators(); track user.id) {
+            <div class="bg-white rounded-lg shadow-md p-6 text-center flex flex-col items-center">
+              <div class="w-24 h-24 rounded-full bg-green-200 flex items-center justify-center text-green-700 font-bold text-4xl mb-4">
+                {{ user.name.charAt(0) }}
+              </div>
+              <h3 class="text-xl font-bold text-gray-800">{{ user.name }}</h3>
+              <div class="mt-2 space-x-2">
+                <span class="px-2 py-1 text-xs font-semibold rounded-full" [class]="getRoleClass(user.role)">
+                  {{ user.role === 'Group Leader' ? 'Trưởng Nhóm' : 'Cộng Tác Viên' }}
+                </span>
+                @if(user.group) {
+                   <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-700">
+                    {{ user.group }}
+                  </span>
+                }
+              </div>
+              <div class="mt-4 pt-4 border-t w-full flex-grow flex items-end justify-center">
+                <a [href]="'mailto:' + user.email" class="text-sm font-medium text-green-600 hover:text-green-800">
+                  Liên hệ
+                </a>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <p class="text-center text-gray-600">Chưa có cộng tác viên nào được kích hoạt.</p>
+      }
+    </div>
+  </main>
+</div>
+
+<app-footer></app-footer>

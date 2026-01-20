@@ -1,0 +1,85 @@
+<app-header></app-header>
+
+<div class="bg-white">
+  <main class="py-16 sm:py-24">
+    <div class="container mx-auto px-4">
+      <!-- Header -->
+      <div class="text-center mb-16">
+        <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 tracking-tight">Doussing</h1>
+        <p class="mt-4 text-2xl font-semibold text-yellow-600">Giá trị & Lợi ích</p>
+        <p class="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
+          Thị trường ngày nay vận hành theo xu hướng bảo vệ lợi ích. "Doussing" là trụ cột nghiên cứu quy hoạch đô thị dưới góc nhìn bảo vệ lợi ích và tạo ra giá trị bền vững cho cộng đồng.
+        </p>
+      </div>
+
+      <!-- Main Content -->
+      <div class="max-w-4xl mx-auto prose max-w-none prose-h2:text-gray-800 prose-h3:text-gray-700 prose-blockquote:border-yellow-600 prose-blockquote:bg-yellow-50 prose-blockquote:text-gray-700">
+        
+        <h2>Từ một vụ việc, nhìn ra một vấn đề hệ thống</h2>
+        <p>
+          Trong quá trình phân tích hồ sơ pháp lý của một dự án, Manager Grup AI (MGA) đã phát hiện ra một chi tiết quan trọng: sự tồn tại của một dòng suối tự nhiên đã bị san lấp. Vấn đề này không phải là duy nhất. Nó là một phần của một câu chuyện lớn hơn về quá trình đô thị hóa tại TP. Thái Nguyên, nơi nhiều dòng chảy tự nhiên đã bị lãng quên.
+        </p>
+
+        <blockquote>
+          <p class="text-lg font-semibold"><strong>Phát hiện cốt lõi từ MGA:</strong> Toàn bộ địa hình của TP. Thái Nguyên có hướng dốc tự nhiên và thoát nước về phía <strong>Đông Nam</strong>. Đây là quy luật nền tảng. Việc san lấp các dòng chảy theo hướng này chính là nguyên nhân gốc rễ gây ra tình trạng ngập úng có hệ thống.</p>
+        </blockquote>
+        
+        <!-- Case Study Highlight -->
+        <div class="not-prose my-12">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Các Nghiên Cứu Điển Hình</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <div class="p-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 h-full flex flex-col">
+                    <h4 class="text-xl font-bold text-gray-800 mb-4 text-center">Vụ Việc #1: KDC Số 5</h4>
+                    <p class="text-center text-gray-600 mb-6 flex-grow">
+                        Phát hiện ban đầu của chúng tôi bắt nguồn từ việc phân tích một vụ việc kéo dài hơn 15 năm tại KDC Số 5, P. Phan Đình Phùng.
+                    </p>
+                    <div class="text-center mt-auto">
+                        <a [routerLink]="['/case-study/de-xuat-ban-giao-dat']" class="inline-block bg-yellow-500 text-gray-900 font-bold py-3 px-6 rounded-lg hover:bg-yellow-600 transition-colors">
+                            Xem Hồ Sơ &rarr;
+                        </a>
+                    </div>
+                </div>
+                <div class="p-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 h-full flex flex-col">
+                    <h4 class="text-xl font-bold text-gray-800 mb-4 text-center">Vụ Việc #2: Nút Giao Minh Cầu</h4>
+                    <p class="text-center text-gray-600 mb-6 flex-grow">
+                        Phân tích gốc rễ của tình trạng tắc nghẽn giao thông, liên quan đến một dòng suối đã bị san lấp.
+                    </p>
+                    <div class="text-center mt-auto">
+                        <a [routerLink]="['/doussing/tac-minh-cau']" class="inline-block bg-yellow-500 text-gray-900 font-bold py-3 px-6 rounded-lg hover:bg-yellow-600 transition-colors">
+                            Xem Phân Tích &rarr;
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <h2>Phân Tích Các Dòng Suối Chính Bị San Lấp & Tác Động Đến Ngập Úng Đô Thị</h2>
+        <p>
+            Vụ việc tại Phan Đình Phùng chỉ là một trong nhiều trường hợp. Dựa trên các bản đồ lịch sử và dữ liệu địa hình, MGA đã xác định được ít nhất 4 dòng chảy tự nhiên chính đã bị san lấp hoặc thu hẹp đáng kể trong quá trình phát triển đô thị.
+        </p>
+
+        <h3>Bằng chứng lịch sử về các dòng chảy tự nhiên</h3>
+        <figure class="text-center">
+          <img class="h-auto max-w-full rounded-lg shadow-md mx-auto" [src]="historicalCityMapUrl" alt="Ảnh vệ tinh lịch sử khu vực dự án cho thấy dòng suối tự nhiên">
+          <figcaption class="mt-2 text-sm text-center text-gray-500 italic">
+            Bằng chứng từ KDC Số 5 cho thấy rõ một vùng trũng, nhiều cây cối, có dấu hiệu của một dòng chảy tự nhiên đã từng tồn tại.
+          </figcaption>
+        </figure>
+
+        <h3>Phân Tích Của MGA: Nguyên Nhân Gốc Rễ Của Tình Trạng Ngập Úng</h3>
+        <blockquote>
+          Việc san lấp các dòng chảy tự nhiên để mở rộng đô thị, dù mang lại lợi ích về mặt bằng xây dựng, đã vô tình phá vỡ hệ thống thoát nước tự nhiên của thành phố. Khi mưa lớn, nước không còn đường thoát, dẫn đến tình trạng ngập úng ngày càng nghiêm trọng.
+        </blockquote>
+        
+        <h2 class="pt-8 border-t mt-12">Đề Xuất Giải Pháp Chiến Lược Cho TP. Thái Nguyên</h2>
+        <p>
+          Từ những phân tích trên, MGA xin đề xuất một lộ trình 3 bước mang tính chiến lược, không chỉ để giải quyết vấn đề ngập úng mà còn hướng đến một đô thị phát triển bền vững, hài hòa với tự nhiên.
+        </p>
+        
+        <!-- Proposal Highlight -->
+        <div class="not-prose my-12">
+             <div class="p-8 bg-blue-50 rounded-lg border-2 border-dashed border-blue-400">
+                <h3 class="text-2xl font-bold text-blue-800 mb-4 text-center">Đề Xuất Giải Pháp Cụ Thể</h3>
+                <p class="text-center text-gray-600 mb-6 max-w-2xl mx-auto">
+                   Lấy cảm hứng từ chính vấn đề tại KDC Số 5, chúng tôi đề xuất

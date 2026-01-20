@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appmap365</title>
+  <meta name="description" content="Nền tảng bất động sản hiện đại tại Thái Nguyên, kết hợp dữ liệu và phân tích AI để mang lại sự minh bạch cho cộng đồng.">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Appmap365 - Bất Động Sản Thái Nguyên">
+  <meta property="og:description" content="Nền tảng bất động sản hiện đại tại Thái Nguyên, kết hợp dữ liệu và phân tích AI để mang lại sự minh bạch cho cộng đồng.">
+  <meta property="og:image" content="https://i.imgur.com/8Yg0Qy8.jpeg">
+  <meta property="og:url" content="https://thainguyen.appmap365.com">
+  <meta property="og:type" content="website">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- New Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><path fill=%22%232d3748%22 d=%22M50 10 L90 90 H10 Z%22 /><circle cx=%2250%22 cy=%2255%22 r=%2212%22 fill=%22%23facc15%22 /><circle cx=%2250%22 cy=%2255%22 r=%225%22 fill=%22%232d3748%22 /></svg>">
+
+  <style>
+    body {
+      font-family: 'Be Vietnam Pro', sans-serif;
+    }
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up {
+      animation: fade-in-up 0.3s ease-out forwards;
+    }
+     @keyframes bounce-short {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    .animate-bounce-short {
+      animation: bounce-short 1s infinite;
+    }
+    /* Custom styles for map marker highlighting */
+    .marker-highlight > div {
+      transform: scale(1.2);
+      z-index: 999;
+      transition: transform 0.2s ease-out;
+      box-shadow: 0 0 0 3px white, 0 0 0 6px #facc15; /* yellow-400 */
+    }
+    .marker-highlight > div > div {
+      background-color: #facc15 !important; /* yellow-400 */
+      color: #111827 !important; /* gray-900 */
+    }
+    .marker-highlight > div > div > svg {
+      color: #111827 !important;
+    }
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "rxjs": "https://aistudiocdn.com/rxjs@^7.8.2?conditions=es2015",
+    "rxjs/operators": "https://aistudiocdn.com/rxjs@^7.8.2/operators?conditions=es2015",
+    "rxjs/ajax": "https://aistudiocdn.com/rxjs@^7.8.2/ajax?conditions=es2015",
+    "rxjs/webSocket": "https://aistudiocdn.com/rxjs@^7.8.2/webSocket?conditions=es2015",
+    "rxjs/testing": "https://aistudiocdn.com/rxjs@^7.8.2/testing?conditions=es2015",
+    "rxjs/fetch": "https://aistudiocdn.com/rxjs@^7.8.2/fetch?conditions=es2015",
+    "@google/genai": "https://next.esm.sh/@google/genai@^1.29.0?external=rxjs",
+    "d3": "https://aistudiocdn.com/d3@^7.9.0?conditions=es2015",
+    "d3-array": "https://aistudiocdn.com/d3-array@^3.2.4?conditions=es2015",
+    "d3-axis": "https://aistudiocdn.com/d3-axis@^3.0.0?conditions=es2015",
+    "d3-brush": "https://aistudiocdn.com/d3-brush@^3.0.0?conditions=es2015",
+    "d3-chord": "https://aistudiocdn.com/d3-chord@^3.0.1?conditions=es2015",
+    "d3-color": "https://aistudiocdn.com/d3-color@^3.1.0?conditions=es2015",
+    "d3-contour": "https://aistudiocdn.com/d3-contour@^4.0.2?conditions=es2015",
+    "d3-delaunay": "https://aistudiocdn.com/d3-delaunay@^6.0.4?conditions=es2015",
+    "d3-dispatch": "https://aistudiocdn.com/d3-dispatch@^3.0.1?conditions=es2015",
+    "d3-drag": "https://aistudiocdn.com/d3-drag@^3.0.0?conditions=es2015",
+    "d3-dsv": "https://aistudiocdn.com/d3-dsv@^3.0.1?conditions=es2015",
+    "d3-ease": "https://aistudiocdn.com/d3-ease@^3.0.1?conditions=es2015",
+    "d3-fetch": "https://aistudiocdn.com/d3-fetch@^3.0.1?conditions=es2015",
+    "d3-force": "https://aistudiocdn.com/d3-force@^3.0.0?conditions=es2015",
+    "d3-format": "https://aistudiocdn.com/d3-format@^3.1.0?conditions=es2015",
+    "d3-geo": "https://aistudiocdn.com/d3-geo@^3.1.1?conditions=es2015",
+    "d3-hierarchy": "https://aistudiocdn.com/d3-hierarchy@^3.1.2?conditions=es2015",
+    "d3-interpolate": "https://aistudiocdn.com/d3-interpolate@^3.0.1?conditions=es2015",
+    "d3-path": "https://aistudiocdn.com/d3-path@^3.1.0?conditions=es2015",
+    "d3-polygon": "https://aistudiocdn.com/d3-polygon@^3.0.1?conditions=es2015",
+    "d3-quadtree": "https://aistudiocdn.com/d3-quadtree@^3.0.1?conditions=es2015",
+    "d3-random": "https://aistudiocdn.com/d3-random@^3.0.1?conditions=es2015",
+    "d3-scale": "https://aistudiocdn.com/d3-scale@^4.0.2?conditions=es2015",
+    "d3-scale-chromatic": "https://aistudiocdn.com/d3-scale-chromatic@^3.1.0?conditions=es2015",
+    "d3-selection": "https://aistudiocdn.com/d3-selection@^3.0.0?conditions=es2015",
+    "d3-shape": "https://aistudiocdn.com/d3-shape@^3.2.0?conditions=es2015",
+    "d3-time": "https://aistudiocdn.com/d3-time@^3.1.0?conditions=es2015",
+    "d3-time-format": "https://aistudiocdn.com/d3-time-format@^4.1.0?conditions=es2015",
+    "d3-timer": "https://aistudiocdn.com/d3-timer@^3.0.1?conditions=es2015",
+    "d3-transition": "https://aistudiocdn.com/d3-transition@^3.0.1?conditions=es2015",
+    "d3-zoom": "https://aistudiocdn.com/d3-zoom@^3.0.0?conditions=es2015",
+    "angular": "https://aistudiocdn.com/angular@^18.1.1?conditions=es2015",
+    "angular/animations": "https://aistudiocdn.com/angular@^18.1.1/animations?conditions=es2015",
+    "angular/animations/browser": "https://aistudiocdn.com/angular@^18.1.1/animations/browser?conditions=es2015",
+    "angular/common": "https://aistudiocdn.com/angular@^18.1.1/common?conditions=es2015",
+    "angular/common/http": "https://aistudiocdn.com/angular@^18.1.1/common/http?conditions=es2015",
+    "angular/compiler": "https://aistudiocdn.com/angular@^18.1.1/compiler?conditions=es2015",
+    "angular/core": "https://aistudiocdn.com/angular@^18.1.1/core?conditions=es2015",
+    "angular/forms": "https://aistudiocdn.com/angular@^18.1.1/forms?conditions=es2015",
+    "angular/platform-browser": "https://aistudiocdn.com/angular@^18.1.1/platform-browser?conditions=es2015",
+    "angular/platform-browser/animations": "https://aistudiocdn.com/angular@^18.1.1/platform-browser/animations?conditions=es2015",
+    "angular/platform-browser-dynamic": "https://aistudiocdn.com/angular@^18.1.1/platform-browser-dynamic?conditions=es2015",
+    "angular/router": "https://aistudiocdn.com/angular@^18.1.1/router?conditions=es2015",
+    "angular/service-worker": "https://aistudiocdn.com/angular@^18.1.1/service-worker?conditions=es2015",
+    "@angular/compiler": "https://esm.sh/@angular/compiler@^21.1.0?external=rxjs",
+    "@angular/platform-browser": "https://esm.sh/@angular/platform-browser@^21.1.0?external=rxjs",
+    "@angular/core": "https://esm.sh/@angular/core@^21.1.0?external=rxjs",
+    "@angular/common": "https://esm.sh/@angular/common@^21.1.0?external=rxjs",
+    "@angular/forms": "https://esm.sh/@angular/forms@^21.1.0?external=rxjs",
+    "@angular/router": "https://esm.sh/@angular/router@^21.1.0?external=rxjs"
+  }
+}
+</script>
+</head>
+<body>
+  <app-root></app-root>
+</body>
+</html>

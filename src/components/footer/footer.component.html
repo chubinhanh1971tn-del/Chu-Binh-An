@@ -1,0 +1,59 @@
+<footer class="bg-gray-800 text-gray-200">
+    <div class="container mx-auto px-4 py-8">
+        <div class="text-center">
+            <div class="mb-6">
+                <h3 class="text-xl font-bold text-yellow-400">MGA365</h3>
+                <p class="text-sm">Minh bạch vì lợi ích cộng đồng</p>
+            </div>
+            
+            <div class="flex justify-center space-x-6 mb-6">
+                <a href="https://zalo.me/g/mga365" target="_blank" rel="noopener noreferrer" aria-label="Zalo" class="text-gray-200 hover:text-yellow-400 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7">
+                        <path d="M12.001.001a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm-1.22 15.352-2.65-3.32h2.24l.41 1.02h.02c.2-.49.43-.98.66-1.47l-2.07-2.58h2.6l1.01 1.25c.18.23.35.46.5.69h.02c.15-.24.3-.49.44-.73l1.1-1.39h2.52l-2.67 3.32h-2.26l-.4-1.01h-.02c-.2.48-.43.97-.67 1.46l2.08 2.58h-2.61l-1-1.25a7.92 7.92 0 0 1-.5-.69h-.02c-.15.24-.3-.49-.44-.73l-1.11 1.39H8.131l2.65-3.32Z"/>
+                    </svg>
+                </a>
+                <a href="https://www.facebook.com/mga365" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="text-gray-200 hover:text-yellow-400 transition-colors">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
+                    </svg>
+                </a>
+                <a routerLink="/" aria-label="Trang chủ" class="text-gray-200 hover:text-yellow-400 transition-colors">
+                    <svg class="h-8 w-auto text-yellow-400 group-hover:text-yellow-300 transition-colors" viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 15 L85 85 H15 Z"></path>
+                        <circle cx="50" cy="58" r="15" fill="white"></circle>
+                        <circle cx="50" cy="58" r="7" fill="currentColor"></circle>
+                    </svg>
+                </a>
+                <a href="https://www.youtube.com/@mga365" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="text-gray-200 hover:text-yellow-400 transition-colors">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.267,4,12,4,12,4S5.733,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.733,2,12,2,12s0,4.267,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.733,20,12,20,12,20s6.267,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.267,22,12,22,12S22,7.733,21.582,6.186z M9.999,15.5v-7l6,3.5L9.999,15.5z"></path>
+                    </svg>
+                </a>
+            </div>
+
+             <!-- AI Feature Toggle -->
+            <div class="flex justify-center items-center space-x-3 my-6">
+                <span class="font-medium text-sm">Tính năng AI</span>
+                <label for="ai-toggle" class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="ai-toggle" class="sr-only peer" [checked]="isAiFeatureEnabled()" (change)="toggleAiFeature()">
+                    <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-focus:ring-4 peer-focus:ring-yellow-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-yellow-400"></div>
+                </label>
+            </div>
+
+            <div class="text-sm space-y-1">
+                <p class="text-xs text-gray-400 mb-2">Tôn trọng quyền riêng tư. Không theo dõi người dùng.</p>
+                <p>&copy; {{ currentYear }} MGA365. All rights reserved.</p>
+                <p>
+                    Phát triển bởi <a href="https://github.com/chubinhanh1971tn-del" target="_blank" rel="noopener noreferrer" class="font-semibold hover:text-yellow-400 underline">Chu Bình An</a> 
+                    | <a routerLink="/cooperation" class="hover:text-yellow-400 underline">Cơ chế hợp tác</a>
+                </p>
+                <p>
+                    <a routerLink="/about" class="hover:text-yellow-400 underline">Về chúng tôi</a> | 
+                    <a routerLink="/admin" class="hover:text-yellow-400 underline">Quản lý</a> | 
+                    <a routerLink="/group-leader" class="hover:text-yellow-400 underline">Kênh Trưởng Nhóm</a> |
+                    <a routerLink="/collaborator" class="hover:text-yellow-400 underline">Kênh Cộng Tác Viên</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>

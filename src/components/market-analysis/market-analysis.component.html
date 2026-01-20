@@ -1,0 +1,100 @@
+<app-header></app-header>
+
+<div class="bg-white">
+  <main class="py-16 sm:py-24">
+    <div class="container mx-auto px-4">
+      <!-- Header -->
+      <div class="text-center mb-16">
+        <h1 class="text-4xl sm:text-5xl font-bold text-gray-800 tracking-tight">Trung Tâm Phân Tích Thị Trường</h1>
+        <p class="mt-4 text-xl text-gray-600">Phân tích chu kỳ, nguyên nhân và sự năng động của thị trường BĐS Thái Nguyên</p>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Left Column: Regional Dynamics -->
+        <div class="lg:col-span-1">
+          <div class="bg-gray-50 rounded-lg p-6 border h-full">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Sự Năng Động Của Từng Khu Vực</h2>
+            <div class="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+              @for(stat of regionalStats(); track stat.name) {
+                <div class="bg-white p-4 rounded-md shadow-sm border border-gray-200">
+                  <h3 class="font-bold text-gray-800 truncate">{{ stat.name }}</h3>
+                  <div class="mt-2 grid grid-cols-3 gap-2 text-center">
+                    <div>
+                      <p class="text-xl font-bold text-gray-900">{{ stat.propertyCount }}</p>
+                      <p class="text-xs text-gray-500">Tin đăng</p>
+                    </div>
+                    <div>
+                      <p class="text-base font-bold text-gray-900">{{ (stat.averagePricePerSqm / 1000000).toFixed(1) }} tr/m²</p>
+                      <p class="text-xs text-gray-500">Giá TB</p>
+                    </div>
+                    <div>
+                        @if (stat.priceChange30d !== 0) {
+                            <div class="flex items-center justify-center" [class.text-green-600]="stat.priceChange30d > 0" [class.text-red-600]="stat.priceChange30d < 0">
+                                @if (stat.priceChange30d > 0) {
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L6.22 8.64a.75.75 0 11-1.06-1.06l4.25-4.25a.75.75 0 011.06 0l4.25 4.25a.75.75 0 11-1.06 1.06L10.75 5.612V16.25a.75.75 0 01-.75.75z" clip-rule="evenodd" /></svg>
+                                } @else {
+                                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.03-3.03a.75.75 0 111.06 1.06l-4.25 4.25a.75.75 0 01-1.06 0L5.47 12.47a.75.75 0 111.06-1.06l3.03 3.03V3.75A.75.75 0 0110 3z" clip-rule="evenodd" /></svg>
+                                }
+                                <p class="text-base font-bold">{{ stat.priceChange30d.toFixed(1) }}%</p>
+                            </div>
+                        } @else {
+                             <p class="text-base font-bold text-gray-500">-</p>
+                        }
+                      <p class="text-xs text-gray-500">Biến động</p>
+                    </div>
+                  </div>
+                </div>
+              } @empty {
+                <p class="text-gray-500">Không có đủ dữ liệu để phân tích.</p>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Cycle and Cause Analysis -->
+        <div class="lg:col-span-2 space-y-8">
+          <!-- Cycle Analysis -->
+          <div class="bg-gray-50 rounded-lg p-6 border">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Phân Tích Chu Kỳ Thị Trường (Giá TB/m²)</h2>
+            <div class="h-80 w-full">
+              @if (marketTrendData().length > 1) {
+                <app-line-chart [data]="marketTrendData()"></app-line-chart>
+              } @else {
+                <div class="h-full bg-gray-200 rounded-md flex items-center justify-center">
+                  <div class="text-center text-gray-500">
+                    <svg class="w-10 h-10 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" /></svg>
+                    <p class="font-semibold">Không đủ dữ liệu lịch sử</p>
+                    <p class="text-sm">Cần ít nhất 2 tháng có dữ liệu giá để vẽ biểu đồ.</p>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Cause Analysis (News & Events) -->
+          <div class="bg-gray-50 rounded-lg p-6 border">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Dòng Thời Gian Sự Kiện & Nguyên Nhân</h2>
+            <ol class="relative border-l border-gray-300">
+              @for(item of mockNews; track item.title) {
+                <li class="mb-8 ml-6">
+                  <span class="absolute flex items-center justify-center w-6 h-6 bg-yellow-200 rounded-full -left-3 ring-8 ring-white">
+                     <svg class="w-4 h-4 text-yellow-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.653 16.915l.005-.003-.019.006.014-.003zM10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z" clip-rule="evenodd" /></svg>
+                  </span>
+                  <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900">{{ item.title }}</h3>
+                  <time class="block mb-2 text-sm font-normal leading-none text-gray-500">{{ item.date }}</time>
+                  <p class="text-base font-normal text-gray-600">{{ item.description }}</p>
+                </li>
+              }
+            </ol>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,190 @@
+
+<div class="fixed inset-0 bg-black/80 z-40 flex items-center justify-center p-4 animate-fade-in" (click)="closeModal()">
+  <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-6xl mx-auto animate-scale-up h-[90vh] flex flex-col overflow-hidden" (click)="$event.stopPropagation()">
+    
+    <!-- Header -->
+    <div class="flex-shrink-0 flex justify-between items-start p-5 border-b border-gray-200 bg-white z-10">
+      <div>
+        <h3 class="text-xl md:text-2xl font-bold text-gray-800 line-clamp-2 leading-tight">{{ property().title }}</h3>
+        <p class="text-sm text-gray-500 mt-1 flex items-center">
+          <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>
+          {{ property().address }}
+        </p>
+      </div>
+      <button (click)="closeModal()" class="text-gray-400 hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-50" aria-label="Đóng">
+        <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Scrollable Content -->
+    <div class="flex-grow overflow-y-auto custom-scrollbar">
+      <div class="flex flex-col lg:flex-row">
+        
+        <!-- Left Column: Images & Key Details (60%) -->
+        <div class="lg:w-3/5 bg-gray-50">
+          <!-- Image Gallery -->
+          <div class="relative h-64 sm:h-96 group bg-gray-200">
+            <img [ngSrc]="property().imageUrls[currentImageIndex()]" alt="Property Image" class="w-full h-full object-cover" width="800" height="600" priority>
+            
+            @if (property().imageUrls.length > 1) {
+              <button (click)="prevImage()" class="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/30 hover:bg-black/50 text-white rounded-full transition-colors opacity-0 group-hover:opacity-100">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+              </button>
+              <button (click)="nextImage()" class="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/30 hover:bg-black/50 text-white rounded-full transition-colors opacity-0 group-hover:opacity-100">
+                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+              </button>
+              <div class="absolute bottom-4 right-4 bg-black/60 text-white text-xs px-2 py-1 rounded-md">
+                {{ currentImageIndex() + 1 }} / {{ property().imageUrls.length }}
+              </div>
+            }
+            
+            <!-- Thumbnails -->
+            <div class="absolute bottom-4 left-4 right-16 flex gap-2 overflow-x-auto no-scrollbar mask-gradient">
+               @for (img of property().imageUrls; track img; let i = $index) {
+                 <button (click)="goToImage(i)" class="relative w-12 h-12 flex-shrink-0 rounded-md overflow-hidden border-2 transition-all" [class.border-yellow-400]="i === currentImageIndex()" [class.border-transparent]="i !== currentImageIndex()">
+                   <img [ngSrc]="img" width="48" height="48" class="w-full h-full object-cover">
+                 </button>
+               }
+            </div>
+          </div>
+
+          <!-- Main Info Bar -->
+          <div class="p-6 bg-white border-b border-gray-200 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+             <div>
+                <p class="text-xs text-gray-500 uppercase font-bold">Mức giá</p>
+                <p class="text-lg md:text-xl font-bold text-green-600">{{ displayPrice() }}</p>
+             </div>
+             <div>
+                <p class="text-xs text-gray-500 uppercase font-bold">Diện tích</p>
+                <p class="text-lg md:text-xl font-bold text-gray-800">{{ property().area }} m²</p>
+             </div>
+             @if(property().price > 0 && property().area > 0) {
+               <div class="hidden sm:block">
+                  <p class="text-xs text-gray-500 uppercase font-bold">Đơn giá</p>
+                  <p class="text-lg font-semibold text-gray-800">{{ (property().price / property().area / 1000000).toFixed(1) }} tr/m²</p>
+               </div>
+             }
+             <div>
+                <p class="text-xs text-gray-500 uppercase font-bold">Pháp lý</p>
+                <p class="text-base font-semibold text-gray-800 truncate">{{ property().transactionDetails.legalStatus }}</p>
+             </div>
+          </div>
+
+          <!-- Description & Specs -->
+          <div class="p-6">
+            <h4 class="text-lg font-bold text-gray-900 mb-3">Thông tin chi tiết</h4>
+            <div class="flex flex-wrap gap-4 mb-6">
+               @if(property().type !== 'Đất') {
+                  <span class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-sm text-gray-700">
+                    <span class="font-bold mr-1">{{ property().bedrooms }}</span> PN
+                  </span>
+                  <span class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-sm text-gray-700">
+                    <span class="font-bold mr-1">{{ property().bathrooms }}</span> WC
+                  </span>
+               }
+               <span class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-sm text-gray-700">
+                  Hướng: <span class="font-bold ml-1">Đang cập nhật</span>
+               </span>
+               @if(property().transactionDetails.yearBuilt) {
+                 <span class="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-sm text-gray-700">
+                    Xây dựng: <span class="font-bold ml-1">{{ property().transactionDetails.yearBuilt }}</span>
+                 </span>
+               }
+            </div>
+
+            <h4 class="text-lg font-bold text-gray-900 mb-2">Mô tả</h4>
+            <div class="prose prose-sm max-w-none text-gray-600 whitespace-pre-line">
+              {{ property().transactionDetails.description }}
+            </div>
+            
+            <div class="mt-8">
+               <h4 class="text-lg font-bold text-gray-900 mb-4">Vị trí trên bản đồ</h4>
+               <div class="h-64 bg-gray-200 rounded-lg overflow-hidden border border-gray-300 relative">
+                  @if (mapUrl(); as url) {
+                    <iframe [src]="url" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                  } @else {
+                    <div class="flex items-center justify-center h-full text-gray-500">
+                      Chưa có dữ liệu bản đồ
+                    </div>
+                  }
+               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: AI Insights & Contact (40%) -->
+        <div class="lg:w-2/5 p-6 space-y-6 bg-white border-l border-gray-200">
+          
+          <!-- AI Architect Section -->
+          <app-future-architect [property]="property()"></app-future-architect>
+
+          <!-- AI Agent Analyst Section -->
+          <div class="bg-indigo-50 rounded-xl p-5 border border-indigo-100">
+            <div class="flex items-center justify-between mb-4">
+               <h3 class="text-lg font-bold text-indigo-900 flex items-center">
+                 <span class="mr-2 text-2xl">🕵️</span> Mèo AI Phân Tích
+               </h3>
+               @if (isAiConfigured() && isAiFeatureEnabled()) {
+                 <button (click)="getAiAnalysis()" [disabled]="isGeneratingAnalysis() || aiAnalysis()" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 underline disabled:text-gray-400 disabled:no-underline">
+                   {{ aiAnalysis() ? 'Đã phân tích' : 'Phân tích ngay' }}
+                 </button>
+               }
+            </div>
+
+            @if (isGeneratingAnalysis()) {
+               <div class="flex flex-col items-center justify-center py-8 text-indigo-600">
+                  <svg class="animate-spin h-8 w-8 mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                  <span class="text-sm animate-pulse">Đang nghiên cứu thị trường...</span>
+               </div>
+            } @else if (aiAnalysis(); as analysis) {
+               <div class="space-y-4 animate-fade-in">
+                  <div>
+                    <p class="text-xs font-bold text-green-700 uppercase tracking-wide">Điểm mạnh</p>
+                    <p class="text-sm text-gray-800">{{ analysis.strengths }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs font-bold text-red-600 uppercase tracking-wide">Điểm yếu / Rủi ro</p>
+                    <p class="text-sm text-gray-800">{{ analysis.weaknesses }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs font-bold text-blue-600 uppercase tracking-wide">Tiềm năng</p>
+                    <p class="text-sm text-gray-800">{{ analysis.potential }}</p>
+                  </div>
+                  <div class="pt-2 border-t border-indigo-200">
+                    <p class="text-sm font-semibold text-indigo-800"><span class="mr-1">🎯</span> Phù hợp với: {{ analysis.suitableFor }}</p>
+                  </div>
+               </div>
+            } @else {
+               <div class="text-center py-6 text-gray-500 text-sm">
+                 @if (!isAiConfigured() || !isAiFeatureEnabled()) {
+                    <p>Chưa kích hoạt AI. Vui lòng kiểm tra cài đặt.</p>
+                 } @else {
+                    <p>Nhấn "Phân tích ngay" để xem đánh giá chuyên sâu từ góc nhìn nhà đầu tư.</p>
+                 }
+               </div>
+            }
+          </div>
+
+          <!-- Contact Actions (Sticky bottom on mobile, inline on desktop) -->
+          <div class="bg-white p-4 rounded-xl border border-yellow-200 shadow-sm">
+             <p class="text-center text-sm text-gray-500 mb-3">Bạn quan tâm bất động sản này?</p>
+             <div class="grid grid-cols-2 gap-3">
+               <button (click)="openContactModal()" class="col-span-2 bg-green-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-700 transition-colors shadow-md flex items-center justify-center gap-2">
+                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
+                 <span>Liên hệ ngay</span>
+               </button>
+               <!-- Removed direct Zalo link as per strategy, focused on contact modal -->
+             </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  @if (isContactModalOpen()) {
+    <app-contact-modal [property]="property()" (close)="closeContactModal()"></app-contact-modal>
+  }
+</div>

@@ -1,0 +1,72 @@
+<div class="fixed inset-0 bg-black/80 z-50 flex flex-col items-center justify-center p-4 animate-fade-in" (click)="closeModal()">
+  
+  <!-- Top Controls -->
+  <div class="absolute top-4 right-4 z-50 flex items-center space-x-4">
+    <button 
+      (click)="toggleZoom($event)" 
+      class="text-white/70 hover:text-white transition-colors" 
+      [attr.aria-label]="scale() > 1 ? 'Thu nhỏ' : 'Phóng to'">
+      @if(scale() > 1) {
+        <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM13.5 10.5h-6" /></svg>
+      } @else {
+        <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" /></svg>
+      }
+    </button>
+    <button (click)="closeModal()" class="text-white/70 hover:text-white transition-colors" aria-label="Đóng">
+      <svg class="w-10 h-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+    </button>
+  </div>
+
+
+  <!-- Image Container -->
+  <div 
+    #imageContainer
+    class="relative w-full h-full flex items-center justify-center overflow-hidden" 
+    (click)="$event.stopPropagation()"
+    (mousedown)="onMouseDown($event)"
+    (mousemove)="onMouseMove($event)"
+    (mouseup)="onMouseUp($event)"
+    (mouseleave)="onMouseUp($event)"
+    (wheel)="onWheel($event)"
+    >
+    <img 
+      #zoomableImage
+      [ngSrc]="images()[currentIndex()]" 
+      alt="Property image {{ currentIndex() + 1 }} of {{ images().length }}" 
+      class="max-w-full max-h-full object-contain rounded-lg shadow-2xl transition-transform duration-200"
+      [class.cursor-grab]="scale() > 1"
+      [class.cursor-grabbing]="isPanning()"
+      [style.transform]="transformStyle()"
+      width="1600"
+      height="1200"
+      priority>
+  </div>
+
+  <!-- Navigation -->
+  @if (images().length > 1) {
+    <button 
+      (click)="prevImage(); $event.stopPropagation()" 
+      class="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 p-2 bg-white/20 hover:bg-white/40 rounded-full text-white transition-colors z-10"
+      aria-label="Ảnh trước">
+      <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+      </svg>
+    </button>
+
+    <button 
+      (click)="nextImage(); $event.stopPropagation()" 
+      class="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 p-2 bg-white/20 hover:bg-white/40 rounded-full text-white transition-colors z-10"
+      aria-label="Ảnh sau">
+      <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+      </svg>
+    </button>
+  }
+
+  <!-- Image Counter -->
+  @if (images().length > 1) {
+    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white text-sm px-3 py-1 rounded-full z-10">
+      {{ currentIndex() + 1 }} / {{ images().length }}
+    </div>
+  }
+</div>

@@ -1,0 +1,50 @@
+<app-header></app-header>
+<div class="bg-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 min-h-screen">
+  <div class="max-w-md w-full space-y-8">
+    <div>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        Đăng nhập vào tài khoản của bạn
+      </h2>
+    </div>
+    <form class="mt-8 space-y-6 bg-white p-8 shadow-lg rounded-lg" #loginForm="ngForm" (ngSubmit)="submitForm()">
+      <div class="rounded-md shadow-sm -space-y-px">
+        <div>
+          <label for="email-address" class="sr-only">Email</label>
+          <input id="email-address" name="email" type="email" autocomplete="email" required
+                 [(ngModel)]="loginData.email" #email="ngModel"
+                 class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
+                 placeholder="Địa chỉ email">
+        </div>
+        <div>
+          <label for="password" class="sr-only">Mật khẩu</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required
+                 [(ngModel)]="loginData.password" #password="ngModel"
+                 class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm"
+                 placeholder="Mật khẩu">
+        </div>
+      </div>
+
+      @if(errorMessage) {
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4" role="alert">
+          <p>{{ errorMessage }}</p>
+        </div>
+      }
+
+      <div class="flex items-center justify-between">
+        <div class="text-sm">
+          <a routerLink="/register" class="font-medium text-green-600 hover:text-green-500">
+            Chưa có tài khoản? Đăng ký
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" [disabled]="!loginForm.form.valid"
+                class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:bg-gray-400">
+          Đăng nhập
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<app-footer></app-footer>

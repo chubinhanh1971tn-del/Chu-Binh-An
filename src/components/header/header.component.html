@@ -1,0 +1,81 @@
+<header class="bg-gray-800 shadow-md relative">
+  <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+    <!-- Logo -->
+    <a routerLink="/" class="flex items-center space-x-2 group">
+      <svg class="h-10 w-auto text-yellow-400 group-hover:text-yellow-300 transition-colors" viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 15 L85 85 H15 Z" />
+          <circle cx="50" cy="58" r="15" fill="white" />
+          <circle cx="50" cy="58" r="7" fill="currentColor" />
+      </svg>
+      <span class="text-2xl font-bold text-white group-hover:text-gray-200 transition-colors">Appmap365</span>
+    </a>
+
+    <!-- Right side controls -->
+    <div class="flex items-center space-x-2 sm:space-x-4">
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex space-x-6 items-center">
+        <button (click)="headerFilterSelected.emit('Nhà')" class="text-gray-300 hover:text-yellow-400 transition-colors font-medium">Nhà Bán</button>
+        <button (click)="headerFilterSelected.emit('Đất')" class="text-gray-300 hover:text-yellow-400 transition-colors font-medium">Đất Bán</button>
+        <button (click)="headerFilterSelected.emit('Cho Thuê')" class="text-gray-300 hover:text-yellow-400 transition-colors font-medium">Cho Thuê</button>
+        <a routerLink="/community" class="text-gray-300 hover:text-yellow-400 transition-colors font-medium">Cộng Đồng</a>
+        <a routerLink="/blog" class="text-gray-300 hover:text-yellow-400 transition-colors font-medium">Blog Con Mèo</a>
+        <a routerLink="/doussing" class="text-gray-300 hover:text-yellow-400 transition-colors font-medium">Doussing</a>
+        <a routerLink="/ecosystem" class="text-gray-300 hover:text-yellow-400 transition-colors font-medium">Hệ Sinh Thái</a>
+        <a routerLink="/cooperation" class="text-gray-300 hover:text-yellow-400 transition-colors font-medium">Hợp Tác</a>
+        <a routerLink="/partnership-proposal" class="text-gray-300 hover:text-yellow-400 transition-colors font-medium">Đề xuất Google</a>
+        
+        <span class="text-gray-500">|</span>
+
+        <a href="https://batdongsan.com.vn" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-yellow-400 transition-colors font-medium flex items-center gap-1.5" title="Mở BatDongSan.com.vn trong tab mới">
+          <span>BDS.com.vn</span>
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+        </a>
+        <a href="https://cafef.vn/bat-dong-san.chn" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-yellow-400 transition-colors font-medium flex items-center gap-1.5" title="Mở CafeF Bất Động Sản trong tab mới">
+          <span>CafeF BĐS</span>
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+        </a>
+        <a href="https://quyhoach.thainguyen.gov.vn" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-yellow-400 transition-colors font-medium flex items-center gap-1.5" title="Mở Cổng Quy Hoạch Thái Nguyên trong tab mới">
+          <span>Quy Hoạch TN</span>
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+        </a>
+      </nav>
+      
+      <!-- User Menu -->
+      <app-user-menu [isMobile]="false"></app-user-menu>
+
+      <!-- Mobile Menu Button -->
+      <button (click)="toggleMobileMenu()" class="md:hidden p-2 text-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  @if (isMobileMenuOpen()) {
+    <div class="md:hidden absolute top-full left-0 right-0 bg-gray-800 z-50 animate-fade-in-down">
+      <nav class="flex flex-col space-y-2 p-4">
+        <button (click)="headerFilterSelected.emit('Nhà'); toggleMobileMenu()" class="text-left text-gray-300 hover:text-yellow-400 transition-colors py-2 px-3 rounded-md">Nhà Bán</button>
+        <button (click)="headerFilterSelected.emit('Đất'); toggleMobileMenu()" class="text-left text-gray-300 hover:text-yellow-400 transition-colors py-2 px-3 rounded-md">Đất Bán</button>
+        <button (click)="headerFilterSelected.emit('Cho Thuê'); toggleMobileMenu()" class="text-left text-gray-300 hover:text-yellow-400 transition-colors py-2 px-3 rounded-md">Cho Thuê</button>
+        <a routerLink="/community" (click)="toggleMobileMenu()" class="text-gray-300 hover:text-yellow-400 transition-colors py-2 px-3 rounded-md">Cộng Đồng</a>
+        <a routerLink="/blog" (click)="toggleMobileMenu()" class="text-gray-300 hover:text-yellow-400 transition-colors py-2 px-3 rounded-md">Blog Con Mèo</a>
+        <a routerLink="/doussing" (click)="toggleMobileMenu()" class="text-gray-300 hover:text-yellow-400 transition-colors py-2 px-3 rounded-md">Doussing</a>
+        <a routerLink="/ecosystem" (click)="toggleMobileMenu()" class="text-gray-300 hover:text-yellow-400 transition-colors py-2 px-3 rounded-md">Hệ Sinh Thái</a>
+        <a routerLink="/cooperation" (click)="toggleMobileMenu()" class="text-gray-300 hover:text-yellow-400 transition-colors py-2 px-3 rounded-md">Hợp Tác</a>
+        <a routerLink="/partnership-proposal" (click)="toggleMobileMenu()" class="text-gray-300 hover:text-yellow-400 transition-colors py-2 px-3 rounded-md">Đề xuất Google</a>
+
+        <div class="pt-2 my-2 border-t border-gray-700">
+          <span class="px-3 text-xs font-semibold uppercase text-gray-400">Tham khảo</span>
+        </div>
+
+        <a href="https://batdongsan.com.vn" target="_blank" rel="noopener noreferrer" (click)="toggleMobileMenu()" class="text-left text-gray-300 hover:text-yellow-400 transition-colors py-2 px-3 rounded-md flex justify-between items-center">
+          <span>BatDongSan.com.vn</span>
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+        </a>
+        <a href="https://cafef.vn/bat-dong-san.chn" target="_blank" rel="noopener noreferrer" (click)="toggleMobileMenu()" class="text-left text-gray-300 hover:text-yellow-400 transition-colors py-2 px-3 rounded-md flex justify-between items-center">
+          <span>CafeF Bất Động Sản</span>
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+        </a>
+        <a href="https://quyhoach.thainguyen.gov.vn" target="_blank" rel="noopener noreferrer" (click)="toggleMobileMenu()" class="text-left text-gray-300 hover:text-yellow-400 transition-colors py-2 px-3

@@ -1,0 +1,209 @@
+<div class="space-y-4">
+  <form (submit)="$event.preventDefault(); onFilterChange()" (click)="$event.stopPropagation()">
+    <!-- Main Filter Bar (Always visible) -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+      <!-- Keyword -->
+      <div class="md:col-span-5">
+        <label for="keyword" class="sr-only">Từ khóa</label>
+        <input 
+          type="text" id="keyword" name="keyword"
+          [(ngModel)]="keyword" (ngModelChange)="onFilterChange()"
+          placeholder="Nhập tiêu đề, địa chỉ..." 
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-base"
+        >
+      </div>
+      <!-- Purpose -->
+      <div class="md:col-span-3">
+          <label for="listingType" class="sr-only">Mục đích</label>
+          <select id="listingType" name="listingType"
+            [(ngModel)]="listingType" (ngModelChange)="onFilterChange()"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 bg-white text-base">
+            <option value="all">Tất cả</option>
+            <option value="Bán">Bán</option>
+            <option value="Cho Thuê">Cho Thuê</option>
+          </select>
+      </div>
+       <!-- More Filters Button -->
+      <div class="md:col-span-2">
+        <button type="button" (click)="toggleAdvancedPanel()" 
+                class="w-full relative bg-gray-200 text-gray-800 font-semibold py-3 px-4 rounded-lg hover:bg-gray-300 transition-colors flex items-center justify-center gap-2 shadow-sm">
+          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0M3.75 18H7.5m-3-6h15.75m-15.75 0a1.5 1.5 0 0 1 3 0m-3 0a1.5 1.5 0 003 0m-4.5-6H10.5" /></svg>
+          <span>Bộ lọc khác</span>
+          @if (advancedFilterCount() > 0) {
+            <span class="absolute -top-2 -right-2 bg-yellow-500 text-gray-900 text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-md">
+              {{ advancedFilterCount() }}
+            </span>
+          }
+        </button>
+      </div>
+      <!-- Reset Button -->
+      <div class="md:col-span-2">
+        <button type="button" (click)="resetAllFilters()" [disabled]="!hasActiveFilters()"
+                class="w-full bg-red-500 text-white font-semibold py-3 px-4 rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center gap-2 shadow-sm disabled:bg-gray-400 disabled:cursor-not-allowed">
+          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.667 0m0 0-3.182-3.182m0 0a8.25 8.25 0 00-11.667 0" /></svg>
+          <span>Reset</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Advanced Filter Panel (Conditional) -->
+    @if (isAdvancedPanelOpen()) {
+      <div class="relative bg-white rounded-lg shadow-xl p-6 mt-4 border border-gray-200" (click)="$event.stopPropagation()">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 items-end">
+          <!-- Type -->
+          <div class="lg:col-span-1">
+            <label for="type" class="block text-sm font-semibold text-gray-700 mb-2">Loại hình</label>
+            <select id="type" name="type" [(ngModel)]="type" (ngModelChange)="onFilterChange()" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 bg-white text-base">
+              <option value="all">Tất cả</option>
+              <option value="Nhà">Nhà</option>
+              <option value="Đất">Đất</option>
+              <option value="Căn hộ">Căn hộ</option>
+            </select>
+          </div>
+          <!-- Region -->
+          <div class="lg:col-span-1">
+            <label for="region" class="block text-sm font-semibold text-gray-700 mb-2">Khu vực</label>
+            <select id="region" name="region" [(ngModel)]="region" (ngModelChange)="onFilterChange()" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 bg-white text-base">
+              <option value="all">Tất cả khu vực</option>
+              @for (r of regions(); track r) {
+                <option [value]="r">{{ r }}</option>
+              }
+            </select>
+          </div>
+          <!-- Bedrooms -->
+          <div class="lg:col-span-1">
+            <label for="bedrooms" class="block text-sm font-semibold text-gray-700 mb-2">Phòng ngủ</label>
+            <select id="bedrooms" name="bedrooms" [(ngModel)]="bedrooms" (ngModelChange)="onFilterChange()" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 bg-white text-base">
+              <option value="0">Bất kỳ</option>
+              <option value="1">1+</option>
+              <option value="2">2+</option>
+              <option value="3">3+</option>
+              <option value="4">4+</option>
+              <option value="5">5+</option>
+            </select>
+          </div>
+          <!-- Bathrooms -->
+          <div class="lg:col-span-1">
+            <label for="bathrooms" class="block text-sm font-semibold text-gray-700 mb-2">Phòng tắm</label>
+            <select id="bathrooms" name="bathrooms" [(ngModel)]="bathrooms" (ngModelChange)="onFilterChange()" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 bg-white text-base">
+              <option value="0">Bất kỳ</option>
+              <option value="1">1+</option>
+              <option value="2">2+</option>
+              <option value="3">3+</option>
+              <option value="4">4+</option>
+              <option value="5">5+</option>
+            </select>
+          </div>
+           <!-- Source -->
+          <div class="lg:col-span-1">
+            <label for="source" class="block text-sm font-semibold text-gray-700 mb-2">Nguồn hàng</label>
+            <select id="source" name="source" [(ngModel)]="source" (ngModelChange)="onFilterChange()" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 bg-white text-base">
+              <option value="all">Tất cả</option>
+              <option value="Ký gửi cá nhân">Ký gửi cá nhân</option>
+              <option value="Đối tác MGA">Đối tác MGA</option>
+              <option value="Nguồn tổng hợp">Nguồn tổng hợp</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end mt-6 pt-6 border-t border-gray-200">
+          <!-- Price/Rent/Area Section -->
+          <div class="space-y-4">
+             @if (listingType() === 'Bán' || listingType() === 'all') {
+              <div>
+                <label for="minPrice" class="block text-sm font-semibold text-gray-700 mb-2">Giá bán (VNĐ)</label>
+                <div class="flex items-center space-x-2">
+                  <input type="text" id="minPrice" name="minPrice" [(ngModel)]="minPrice" (ngModelChange)="onFilterChange()" placeholder="Từ (VD: 3 tỷ)" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-base">
+                  <input type="text" id="maxPrice" name="maxPrice" [(ngModel)]="maxPrice" (ngModelChange)="onFilterChange()" placeholder="Đến (VD: 5 tỷ)" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-base">
+                </div>
+              </div>
+            }
+            @if (listingType() === 'Cho Thuê' || listingType() === 'all') {
+              <div>
+                <label for="minRentPrice" class="block text-sm font-semibold text-gray-700 mb-2">Giá thuê (VNĐ/tháng)</label>
+                <div class="flex items-center space-x-2">
+                  <input type="text" id="minRentPrice" name="minRentPrice" [(ngModel)]="minRentPrice" (ngModelChange)="onFilterChange()" placeholder="Từ (VD: 5 triệu)" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-base">
+                  <input type="text" id="maxRentPrice" name="maxRentPrice" [(ngModel)]="maxRentPrice" (ngModelChange)="onFilterChange()" placeholder="Đến (VD: 10 triệu)" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-base">
+                </div>
+              </div>
+            }
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Diện tích (m²)</label>
+              <div class="flex items-center space-x-2">
+                <input type="number" name="minArea" [(ngModel)]="minArea" (ngModelChange)="onFilterChange()" placeholder="Tối thiểu" min="0" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-base">
+                <input type="number" name="maxArea" [(ngModel)]="maxArea" (ngModelChange)="onFilterChange()" placeholder="Tối đa" min="0" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-base">
+              </div>
+            </div>
+          </div>
+          <!-- Year Built & Actions -->
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Năm xây dựng</label>
+              <div class="flex items-center space-x-2">
+                <input type="number" name="minYearBuilt" [(ngModel)]="minYearBuilt" (ngModelChange)="onFilterChange()" placeholder="Từ năm" min="1900" [max]="currentYear" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-base">
+                <input type="number" name="maxYearBuilt" [(ngModel)]="maxYearBuilt" (ngModelChange)="onFilterChange()" placeholder="Đến năm" min="1900" [max]="currentYear" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 text-base">
+              </div>
+            </div>
+            <div class="pt-2">
+              <button type="button" (click)="resetAdvancedFilters()" [disabled]="!advancedFilterCount()" class="w-full font-semibold text-gray-600 hover:text-red-600 transition-colors disabled:text-gray-400 disabled:cursor-not-allowed text-sm py-3">Reset bộ lọc khác</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-4 pt-6 mt-4 border-t">
+            <!-- Checkboxes -->
+            <div class="flex items-center space-x-6">
+                <div class="flex items-center">
+                    <input id="featured" name="featured" type="checkbox" [(ngModel)]="featured" (ngModelChange)="onFilterChange()" class="h-4 w-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500">
+                    <label for="featured" class="ml-2 block text-sm font-medium text-gray-700">Chỉ tin nổi bật</label>
+                </div>
+                <div class="flex items-center">
+                    <input id="showOnlyFavorites" name="showOnlyFavorites" type="checkbox" [(ngModel)]="showOnlyFavorites" (ngModelChange)="onFilterChange()" class="h-4 w-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500">
+                    <label for="showOnlyFavorites" class="ml-2 block text-sm font-medium text-gray-700">Chỉ tin yêu thích</label>
+                </div>
+            </div>
+             <!-- Saved Searches & Sort -->
+            <div class="flex items-center gap-4">
+                @if (savedSearches().length > 0) {
+                  <div class="relative">
+                    <select name="selectedSavedSearch" [(ngModel)]="selectedSavedSearchName" (ngModelChange)="loadSelectedSearch()" class="pl-4 pr-10 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 bg-white text-base appearance-none">
+                      <option [ngValue]="null" disabled>Tải bộ lọc</option>
+                      @for (search of savedSearches(); track search.name) { <option [ngValue]="search.name">{{ search.name }}</option> }
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"><svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></div>
+                    @if (selectedSavedSearchName()) {
+                      <button type="button" (click)="deleteSelectedSearch(selectedSavedSearchName()!, $event)" class="absolute inset-y-0 right-0 pr-2 pl-12 flex items-center text-gray-400 hover:text-red-600" title="Xóa bộ lọc đã lưu"><svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" /></svg></button>
+                    }
+                  </div>
+                }
+                <button type="button" (click)="saveCurrentSearch()" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2 text-sm">
+                  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21.75a.75.75 0 01-1.057.607L15.39 20.25H5.25A2.25 2.25 0 013 18V6.75c0-1.06.776-1.93 1.852-2.015L17.593 3.322zM7.5 11.25h9" /></svg>
+                  <span>Lưu</span>
+                </button>
+                 <div>
+                    <label for="sortOrder" class="sr-only">Sắp xếp</label>
+                    <select id="sortOrder" name="sortOrder" [(ngModel)]="sortOrder" (ngModelChange)="onFilterChange()" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 bg-white text-base">
+                        <option value="default">Sắp xếp mặc định</option>
+                        <option value="date-desc">Ngày đăng (mới nhất)</option>
+                        <option value="date-asc">Ngày đăng (cũ nhất)</option>
+                        <option value="price-asc">Giá (tăng dần)</option>
+                        <option value="price-desc">Giá (giảm dần)</option>
+                        <option value="area-desc">Diện tích (giảm dần)</option>
+                        <option value="area-asc">Diện tích (tăng dần)</option>
+                    </select>
+                </div>
+                 <div>
+                    <label for="datePostedRange" class="sr-only">Thời gian đăng</label>
+                    <select id="datePostedRange" name="datePostedRange" [(ngModel)]="datePostedRange" (ngModelChange)="onFilterChange()" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500 focus:border-yellow-500 bg-white text-base">
+                        <option value="all">Bất kỳ</option>
+                        <option value="24h">24 giờ qua</option>
+                        <option value="7d">Tuần qua</option>
+                        <option value="30d">Tháng qua</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+      </div>
+    }
+  </form>
+</div>

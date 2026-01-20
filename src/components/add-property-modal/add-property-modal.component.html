@@ -1,0 +1,118 @@
+<div class="fixed inset-0 bg-black/60 z-40 flex items-center justify-center p-4 animate-fade-in" (click)="closeModal()">
+  <div class="relative bg-white rounded-xl shadow-2xl w-full max-w-3xl mx-auto animate-scale-up" (click)="$event.stopPropagation()">
+    
+    <div class="flex justify-between items-center p-5 border-b border-gray-200">
+      <h3 class="text-xl font-bold text-gray-800">Thêm Bất động sản mới</h3>
+      <button (click)="closeModal()" class="text-gray-400 hover:text-gray-600 transition-colors" aria-label="Đóng">
+        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <form #addPropertyForm="ngForm" (ngSubmit)="submitForm()">
+      <div class="p-6 max-h-[70vh] overflow-y-auto space-y-5">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+                <label for="source" class="block text-sm font-medium text-gray-700 mb-1">Nguồn hàng *</label>
+                <select id="source" name="source" required [(ngModel)]="newProperty.source" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 bg-white" [disabled]="initialSource()">
+                    <option value="Nguồn tổng hợp">Nguồn tổng hợp</option>
+                    <option value="Đối tác MGA">Đối tác MGA</option>
+                    <option value="Ký gửi cá nhân">Ký gửi cá nhân</option>
+                </select>
+            </div>
+             <div>
+                <label for="listingType" class="block text-sm font-medium text-gray-700 mb-1">Mục đích *</label>
+                <select id="listingType" name="listingType" required [(ngModel)]="newProperty.listingType" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 bg-white">
+                    <option value="Bán">Bán</option>
+                    <option value="Cho Thuê">Cho Thuê</option>
+                </select>
+            </div>
+        </div>
+        
+        <div>
+            <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Tiêu đề *</label>
+            <input type="text" name="title" id="title" required [(ngModel)]="newProperty.title" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+        </div>
+
+        <div>
+            <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Địa chỉ *</label>
+            <input type="text" name="address" id="address" required [(ngModel)]="newProperty.address" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+        </div>
+        
+        @if (newProperty.listingType === 'Bán') {
+            <div>
+                <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Giá bán (VND) *</label>
+                <input type="number" min="0" name="price" id="price" required [(ngModel)]="newProperty.price" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+            </div>
+        } @else {
+             <div>
+                <label for="rentPrice" class="block text-sm font-medium text-gray-700 mb-1">Giá thuê (VND/tháng) *</label>
+                <input type="number" min="0" name="rentPrice" id="rentPrice" required [(ngModel)]="newProperty.rentPrice" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+            </div>
+        }
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+                <label for="area" class="block text-sm font-medium text-gray-700 mb-1">Diện tích (m²) *</label>
+                <input type="number" min="1" name="area" id="area" required [(ngModel)]="newProperty.area" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+            </div>
+             <div>
+                <label for="type" class="block text-sm font-medium text-gray-700 mb-1">Loại hình *</label>
+                <select id="type" name="type" required [(ngModel)]="newProperty.type" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 bg-white">
+                    <option value="Nhà">Nhà</option>
+                    <option value="Đất">Đất</option>
+                    <option value="Căn hộ">Căn hộ</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+                <label for="bedrooms" class="block text-sm font-medium text-gray-700 mb-1">Số phòng ngủ</label>
+                <input type="number" min="0" name="bedrooms" id="bedrooms" [(ngModel)]="newProperty.bedrooms" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+            </div>
+            <div>
+                <label for="bathrooms" class="block text-sm font-medium text-gray-700 mb-1">Số phòng tắm</label>
+                <input type="number" min="0" name="bathrooms" id="bathrooms" [(ngModel)]="newProperty.bathrooms" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+            </div>
+        </div>
+
+        <div>
+          <label for="legalStatus" class="block text-sm font-medium text-gray-700 mb-1">Tình trạng pháp lý</label>
+          <input type="text" name="legalStatus" id="legalStatus" [(ngModel)]="newProperty.legalStatus" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+        </div>
+
+        <div>
+            <label for="coverImageUrl" class="block text-sm font-medium text-gray-700 mb-1">URL ảnh bìa *</label>
+            <input type="text" name="coverImageUrl" id="coverImageUrl" required [(ngModel)]="newProperty.coverImageUrl" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+        </div>
+
+        <div>
+          <label for="imageUrlsInput" class="block text-sm font-medium text-gray-700 mb-1">URL các ảnh khác (mỗi URL một dòng)</label>
+          <textarea name="imageUrlsInput" id="imageUrlsInput" rows="3" [(ngModel)]="newProperty.imageUrlsInput" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"></textarea>
+        </div>
+
+        <div>
+          <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Mô tả chi tiết</label>
+          <textarea name="description" id="description" rows="4" [(ngModel)]="newProperty.description" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"></textarea>
+        </div>
+
+        <div class="flex items-center">
+            <input id="featured" name="featured" type="checkbox" [(ngModel)]="newProperty.featured" class="h-4 w-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-500">
+            <label for="featured" class="ml-2 block text-sm font-medium text-gray-700">Đánh dấu là tin nổi bật</label>
+        </div>
+
+      </div>
+      <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-end">
+        <button 
+          type="submit" 
+          [disabled]="!addPropertyForm.form.valid"
+          class="bg-green-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed">
+          Thêm Bất động sản
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
